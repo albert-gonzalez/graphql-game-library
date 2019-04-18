@@ -1,0 +1,11 @@
+version: '3'
+services:
+  games:
+    build:
+      context: .
+    volumes:
+      - .:/src
+    ports:
+      - 4000:4000
+    working_dir: /src
+    command: ./scripts/init.sh

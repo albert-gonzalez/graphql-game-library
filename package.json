@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build:dev": "ts-node-dev --respawn --transpileOnly ./src/init.ts",
-    "build:prod": "tsc && node ./dist/init.js"
+    "build:prod": "tsc",
+    "prod": "tsc && node ./dist/init.js"
   },
   "author": "Albert González",
   "license": "ISC",
