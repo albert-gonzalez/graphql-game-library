@@ -1,0 +1,22 @@
+type Platform {
+    id: Int!
+    name: String!
+    description: String
+    games: [Game]!
+}
+
+input PlatformInput {
+    name: String!
+    description: String
+}
+
+extend type Query {
+    platform(id: Int!): Platform!
+    platforms: [Platform]!
+}
+
+extend type Mutation {
+    createPlatform(input: PlatformInput): Platform!
+    updatePlatform(id: Int!, input: PlatformInput): Platform!
+    deletePlatform(id: Int!): Platform!
+}

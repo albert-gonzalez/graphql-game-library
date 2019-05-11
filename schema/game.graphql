@@ -1,0 +1,25 @@
+type Game {
+    id: Int!
+    name: String!
+    description: String
+    url: String
+    platform: Platform!
+}
+
+input GameInput {
+    name: String!
+    description: String
+    url: String
+    platform_id: Int!
+}
+
+extend type Query {
+    game(id: Int!): Game!
+    games(name: String): [Game]!
+}
+
+extend type Mutation {
+    createGame(input: GameInput): Game!
+    updateGame(id: Int!, input: GameInput): Game!
+    deleteGame(id: Int!): Game!
+}

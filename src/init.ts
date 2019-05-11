@@ -1,20 +1,50 @@
-import express from 'express';
-import expressGraphql from 'express-graphql';
-import { root, schema } from './services/graphql/schemaCreator';
-import { init as initDB } from './services/sqlite/gamesRepository';
-
-const app = express();
+const { ApolloServer, gql } = require('apollo-server');
+import { schema } from './services/common/graphql/schemaLoader';
+import { gameRepository, init as initGameRepository } from './services/game/sqlite/gameRepository';
+import {
+  platformRepository,
+  init as initPlatformRepository,
+} from './services/platform/sqlite/platformRepository';
+import {
+  gameFieldResolvers,
+  gameMutationResolvers,
+  gameQueryResolvers,
+} from './domain/game/resolvers';
+import sqlite3 from 'sqlite3';
+import {
+  platformFieldResolvers,
+  platformMutationResolvers,
+  platformQueryResolvers,
+} from './domain/platform/resolvers';
 
 async function initApp() {
-  await initDB();
+  const connection = await new sqlite3.Database(`${__dirname}/../data/games.sqlite`);
+  initGameRepository(connection);
+  initPlatformRepository(connection);
 
-  app.use('/graphql', expressGraphql({
-    schema,
-    graphiql: true,
-    rootValue: root,
-  }));
+  const server = new ApolloServer({
+    typeDefs: gql`${schema}`,
+    resolvers: {
+      Query: {
+        ...gameQueryResolvers,
+        ...platformQueryResolvers,
+      },
+      Mutation: {
+        ...gameMutationResolvers,
+        ...platformMutationResolvers,
+      },
+      ...gameFieldResolvers,
+      ...platformFieldResolvers,
+    },
+    context: {
+      gameRepository,
+      platformRepository,
+    },
+  });
 
-  app.listen(4000);
+  server.listen().then(({ url }: { url: string}) => {
+    console.log(`🚀Server ready at ${url}`);
+  });
 }
 
 initApp();
