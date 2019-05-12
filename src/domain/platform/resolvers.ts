@@ -6,9 +6,8 @@ export const platformQueryResolvers = {
   platform: async (_: any, { id }: { id: number }, context: Context) => {
     return await context.platformRepository.find(id);
   },
-  platforms: async (_: any, context: Context) => {
+  platforms: async (_: any, __: any, context: Context) => {
     return await context.platformRepository.findAll();
-
   },
 };
 
@@ -42,7 +41,7 @@ export const platformMutationResolvers = {
       ...input,
     };
 
-    await context.platformRepository.update(input);
+    await context.platformRepository.update(platform);
 
     return platform;
   },

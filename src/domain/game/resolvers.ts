@@ -40,7 +40,7 @@ export const gameMutationResolvers = {
       ...input,
     };
 
-    await context.gameRepository.update(input);
+    await context.gameRepository.update(game);
 
     return game;
   },

@@ -2,7 +2,7 @@ import { Platform } from '../platform/platform';
 
 export interface Game {
   id?: number;
-  name?: string;
+  name: string;
   description?: string;
   url?: string;
   platform_id: number;
