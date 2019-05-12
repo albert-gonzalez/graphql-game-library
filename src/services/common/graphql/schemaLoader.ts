@@ -5,4 +5,5 @@ export const schema = gql`
 ${readFileSync(`${__dirname}/../../../../schema/base.graphql`).toString()}
 ${readFileSync(`${__dirname}/../../../../schema/game.graphql`).toString()}
 ${readFileSync(`${__dirname}/../../../../schema/platform.graphql`).toString()}
+${readFileSync(`${__dirname}/../../../../schema/user.graphql`).toString()}
 `;

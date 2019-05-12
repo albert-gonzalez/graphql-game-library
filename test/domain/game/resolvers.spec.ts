@@ -89,7 +89,7 @@ describe('Game Resolvers', () => {
   describe('Mutations', () => {
     test('createGame should add a game and return it', async () => {
       const res = await mutate({
-        mutation: `mutation ($input: GameInput){
+        mutation: `mutation ($input: GameInput!){
             createGame(input: $input) {
               id
               name
@@ -115,7 +115,7 @@ describe('Game Resolvers', () => {
 
     test('updateGame should update a game and return it', async () => {
       const res = await mutate({
-        mutation: `mutation ($id: Int!, $input: GameInput){
+        mutation: `mutation ($id: Int!, $input: GameInput!){
             updateGame(id: $id, input: $input) {
               id
               name

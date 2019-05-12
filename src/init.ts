@@ -1,6 +1,13 @@
-const { ApolloServer, gql } = require('apollo-server');
+import {
+  userRepository,
+  init as initUserRepository,
+} from './services/user/sqlite/userRepository';
+import { ApolloServer, gql, AuthenticationError } from 'apollo-server';
 import { schema } from './services/common/graphql/schemaLoader';
-import { gameRepository, init as initGameRepository } from './services/game/sqlite/gameRepository';
+import {
+  gameRepository,
+  init as initGameRepository,
+} from './services/game/sqlite/gameRepository';
 import {
   platformRepository,
   init as initPlatformRepository,
@@ -16,11 +23,13 @@ import {
   platformMutationResolvers,
   platformQueryResolvers,
 } from './domain/platform/resolvers';
+import { userMutationResolvers } from './domain/user/resolvers';
 
 async function initApp() {
   const connection = await new sqlite3.Database(`${__dirname}/../data/games.sqlite`);
   initGameRepository(connection);
   initPlatformRepository(connection);
+  initUserRepository(connection);
 
   const server = new ApolloServer({
     typeDefs: gql`${schema}`,
@@ -32,13 +41,24 @@ async function initApp() {
       Mutation: {
         ...gameMutationResolvers,
         ...platformMutationResolvers,
+        ...userMutationResolvers,
       },
       ...gameFieldResolvers,
       ...platformFieldResolvers,
     },
-    context: {
-      gameRepository,
-      platformRepository,
+    context: async ({ req }) => {
+      const user = await userRepository.findByApiKey(req.headers.apikey as string);
+
+      if (!user) {
+        throw new AuthenticationError('User not found');
+      }
+
+      return {
+        user,
+        gameRepository,
+        platformRepository,
+        userRepository,
+      };
     },
   });
 

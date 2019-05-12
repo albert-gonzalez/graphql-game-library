@@ -78,7 +78,7 @@ describe('Platform Resolvers', () => {
   describe('Mutations', () => {
     test('createPlatform should add a platform and return it', async () => {
       const res = await mutate({
-        mutation: `mutation ($input: PlatformInput){
+        mutation: `mutation ($input: PlatformInput!){
             createPlatform(input: $input) {
               id
               name
@@ -101,7 +101,7 @@ describe('Platform Resolvers', () => {
 
     test('updatePlatform should update a platform and return it', async () => {
       const res = await mutate({
-        mutation: `mutation ($id: Int!, $input: PlatformInput){
+        mutation: `mutation ($id: Int!, $input: PlatformInput!){
             updatePlatform(id: $id, input: $input) {
               id
               name

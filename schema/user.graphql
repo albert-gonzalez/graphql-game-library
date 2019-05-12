@@ -1,0 +1,17 @@
+type User {
+    id: Int!
+    username: String!
+    roles: String!
+    api_key: String!
+}
+
+input UserInput {
+    username: String!
+    roles: String!
+}
+
+extend type Mutation {
+    createUser(input: UserInput!): User!
+    updateUser(id: Int!, input: UserInput!): User!
+    deleteUser(id: Int!): User!
+}

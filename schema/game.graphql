@@ -19,7 +19,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createGame(input: GameInput): Game!
-    updateGame(id: Int!, input: GameInput): Game!
+    createGame(input: GameInput!): Game!
+    updateGame(id: Int!, input: GameInput!): Game!
     deleteGame(id: Int!): Game!
 }
