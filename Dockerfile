@@ -1,11 +1,11 @@
-FROM keymetrics/pm2:latest-alpine
+FROM keymetrics/pm2:latest
 
 COPY . src/
 
 # Install app dependencies
 WORKDIR src
 ENV NPM_CONFIG_LOGLEVEL warn
-RUN npm install --production
+RUN npm install
 
 # TypeScript
 RUN npm run build:prod

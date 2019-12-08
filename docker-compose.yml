@@ -5,6 +5,7 @@ services:
       context: .
     volumes:
       - .:/src
+      - /src/node_modules
     ports:
       - 4000:4000
     working_dir: /src
