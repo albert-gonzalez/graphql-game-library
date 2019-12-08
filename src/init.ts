@@ -32,7 +32,7 @@ async function initApp() {
   initUserRepository(connection);
 
   const server = new ApolloServer({
-    typeDefs: gql`${schema}`,
+    typeDefs: schema,
     resolvers: {
       Query: {
         ...gameQueryResolvers,
