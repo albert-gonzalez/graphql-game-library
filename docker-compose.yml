@@ -1,6 +1,6 @@
 version: '3'
 services:
-  games:
+  games_server:
     build:
       context: server/.
     volumes:
@@ -9,4 +9,14 @@ services:
     ports:
       - 4000:4000
     working_dir: /src
-    command: ./scripts/init.sh
+    command: npm start
+
+  games_frontend:
+    build:
+      context: frontend/.
+    volumes:
+      - ./frontend:/src
+      - /src/node_modules
+    ports:
+      - 3000:3000
+    working_dir: /src

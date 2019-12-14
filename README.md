@@ -6,11 +6,19 @@
 * Go to the repository path
 * run:
     * Local:
-      * First, run `npm install` to install node_modules.
-      * Run `npm run build:dev` or `npm run prod` to run in dev or prod mode
-      * Run `npm test` to run tests
+      * Server:
+        * Enter the server folder
+        * Run `npm install` to install node_modules.
+        * Run `npm start` or `npm run build` to run in dev or prod mode
+        * Run `npm test` to run tests
+      * Frontend:
+        * Enter the frontend folder
+        * Run `npm install` to install node_modules.
+        * Run `npm start` or `npm run build` to run in dev or prod mode
+        * Run `npm test` to run tests
     * Docker:
-      * Run `docker-compose up` to install node_modules and init pm2.
-      * Run `docker-compose run --service-ports games npm run build:dev` to run in devel mode.
-      * Run `docker-compose run --service-ports games npm test` to run tests
-* Open `http://localhost:4000` in the browser
+      * Run `docker-compose up` to execute server (localhost:4000) and frontend (localhost:3000) in devel mode.
+      * Run `docker-compose run --service-ports games_server npm test` to run  server tests
+      * Run `docker-compose run --service-ports games_frontend npm test` to run server tests
+* Open `http://localhost:4000` in the browser to access GraphQL Playground
+* Open `http://localhost:3000` in the browser to access the frontend app

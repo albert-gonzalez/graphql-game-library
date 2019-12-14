@@ -8,7 +8,9 @@
     "build:dev": "ts-node-dev --respawn --transpileOnly ./src/init.ts",
     "build:prod": "tsc",
     "prod": "tsc && node ./dist/init.js",
-    "test": "jest"
+    "test": "jest",
+    "start": "npm run build:dev",
+    "build": "npm run build:prod"
   },
   "author": "Albert González",
   "license": "ISC",

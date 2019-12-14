@@ -1,5 +1,4 @@
 #!/bin/sh
 
-npm install
-npm run build:prod
+npm run build
 pm2-runtime start ecosystem.config.js
