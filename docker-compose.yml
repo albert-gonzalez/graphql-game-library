@@ -2,9 +2,9 @@ version: '3'
 services:
   games:
     build:
-      context: .
+      context: server/.
     volumes:
-      - .:/src
+      - ./server:/src
       - /src/node_modules
     ports:
       - 4000:4000
