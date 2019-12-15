@@ -22,6 +22,29 @@ describe('Game List page', () => {
     },         { timeout: 100 });
   });
 
+  test('renders the lists if the API call is OK when is a search', async() => {
+    const history = createMemoryHistory();
+    history.push('/game/search/awesome');
+    const { getByText } = render(createComponent(okMock, history));
+
+    await wait(() => {
+      expect(getByText(/found game name/i)).toBeInTheDocument();
+      expect(getByText(/found game description/i)).toBeInTheDocument();
+      expect(getByText(/found game platform name/i)).toBeInTheDocument();
+    },         { timeout: 100 });
+  });
+
+  // tslint:disable-next-line:max-line-length
+  test('renders No games found if the API call is OK when is a search but any game was found', async() => {
+    const history = createMemoryHistory();
+    history.push('/game/search/awful');
+    const { getByText } = render(createComponent(okMock, history));
+
+    await wait(() => {
+      expect(getByText(/no games found/i)).toBeInTheDocument();
+    },         { timeout: 100 });
+  });
+
   test('navigates to game show view if the link is clicked', async() => {
     const history = createMemoryHistory();
     const { getByText } = render(createComponent(okMock, history));
@@ -32,7 +55,7 @@ describe('Game List page', () => {
     },         { timeout: 500 });
   });
 
-  test('renders 404 Not Found if some error is found in the API', async() => {
+  test('renders Error loading if some error is found in the API', async() => {
     const { getByText } = render(createComponent(errorMock));
 
     await wait(() => {
@@ -42,13 +65,17 @@ describe('Game List page', () => {
 });
 
 const createComponent = (gqlMocks: MockedResponse[], history = createMemoryHistory()) => (
-  <Router history={history}>
-    <MockedProvider mocks={gqlMocks} addTypename={false}>
+  <MockedProvider mocks={gqlMocks} addTypename={false}>
+    <Router history={history}>
+      <Route path="/game/search/:search">
+        <List />
+      </Route>
       <Route path="/">
         <List />
       </Route>
-    </MockedProvider>
-  </Router>
+    </Router>
+  </MockedProvider>
+
 );
 
 const okMock = [
@@ -79,6 +106,44 @@ const okMock = [
               name: 'platform name 2',
             },
           },
+        ],
+      },
+    },
+  },
+  {
+    request: {
+      query: GAME_LIST_QUERY,
+      variables: {
+        name: 'awesome',
+      },
+    },
+    result: {
+      data: {
+        games: [
+          {
+            id: 1,
+            name: 'found game name',
+            description: 'found game description 1',
+            url: 'found game url 1',
+            platform: {
+              id: 2,
+              name: 'found game platform name 1',
+            },
+          },
+        ],
+      },
+    },
+  },
+  {
+    request: {
+      query: GAME_LIST_QUERY,
+      variables: {
+        name: 'awful',
+      },
+    },
+    result: {
+      data: {
+        games: [
         ],
       },
     },

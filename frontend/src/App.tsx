@@ -32,6 +32,9 @@ export default () => {
             <ApolloProvider client={client}>
                 <div className="container">
                     <Switch>
+                        <Route path="/game/search/:search">
+                            <List />
+                        </Route>
                         <Route path="/game/:id">
                             <Show />
                         </Route>
