@@ -11,7 +11,7 @@ export interface Game {
 
 export interface GameRepository {
   find: (id: number) => Promise<Game>;
-  findAll: () => Promise<Game[]>;
+  findAll: (params: any[]) => Promise<Game[]>;
   findByName: (name: string) => Promise<Game[]>;
   findByPlatformId: (platformId: number) => Promise<Game[]>;
   insert: (game: Game) => Promise<number>;

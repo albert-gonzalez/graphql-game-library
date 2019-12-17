@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import ProgressBar from '../../../common/components/loader/ProgressBar';
 import logger from '../../../common/services/logger/logger';
 import { Game } from '../../domain/game';
@@ -9,7 +9,7 @@ import parseDescription from './parseDescription';
 
 export const GAME_LIST_QUERY = gql`
     query Games($name: String){
-      games(name: $name) {
+      games(name: $name, limit: 100) {
         id
         name
         description
@@ -23,22 +23,25 @@ export const GAME_LIST_QUERY = gql`
 `;
 
 export default () => {
-  const { search } = useParams();
+  let { search } = useParams();
+  search = search || '';
+  const history = useHistory();
 
   const { data, loading, error } = useQuery(GAME_LIST_QUERY, {
+    fetchPolicy: search ? 'no-cache' : 'cache-first',
     variables: {
       name: search,
     },
   });
 
-  const [searchInputValue, setSearchInputValue] = useState(search || '');
+  const [searchInputValue, setSearchInputValue] = useState(search);
   useEffect(() => {
     setSearchInputValue(search || '');
-  },[search]);
+  },        [search]);
 
   const submitSearchHandler = (event: FormEvent) => {
     event.preventDefault();
-    window.location.href = `/game/search/${searchInputValue}`;
+    history.push(`/game/search/${searchInputValue}`);
   };
 
   const changeSearchFieldHandler = (event: ChangeEvent) => {

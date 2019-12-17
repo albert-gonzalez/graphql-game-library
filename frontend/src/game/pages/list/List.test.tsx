@@ -82,6 +82,9 @@ const okMock = [
   {
     request: {
       query: GAME_LIST_QUERY,
+      variables: {
+        name: '',
+      },
     },
     result: {
       data: {

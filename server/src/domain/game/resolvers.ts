@@ -6,11 +6,11 @@ export const gameQueryResolvers = {
   game: async (_: any, { id }: { id: number }, context: Context): Promise<Game> => {
     return await context.gameRepository.find(id);
   },
-  games: async (_: any, { name }: { name: string }, context: Context): Promise<Game[]> => {
+  games: async (_: any, { name, limit }: { name: string, limit?: number }, context: Context): Promise<Game[]> => {
     if (name) {
       return await context.gameRepository.findByName(name);
     }
-    return await context.gameRepository.findAll();
+    return await context.gameRepository.findAll([limit]);
 
   },
 };

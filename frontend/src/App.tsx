@@ -10,6 +10,7 @@ import {
     Link,
 } from 'react-router-dom';
 import Show from './game/pages/show/Show';
+import Create from './game/pages/create/Create';
 
 export default () => {
   return (
@@ -28,12 +29,21 @@ export default () => {
                     </div>
                 </div>
             </section>
+            <nav className="navbar container" role="navigation" aria-label="main navigation">
+                <div className="navbar-brand">
+                    <Link className="navbar-item" to="/">Game List</Link>
+                    <Link className="navbar-item" to="/game/create">Create Game</Link>
+                </div>
+            </nav>
 
             <ApolloProvider client={client}>
                 <div className="container">
                     <Switch>
                         <Route path="/game/search/:search">
                             <List />
+                        </Route>
+                        <Route path="/game/create">
+                            <Create />
                         </Route>
                         <Route path="/game/:id">
                             <Show />

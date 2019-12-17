@@ -18,9 +18,12 @@ export function find(id: number): Promise<Game> {
   });
 }
 
-export function findAll(): Promise<Game[]> {
+export function findAll(params: any[] = []): Promise<Game[]> {
   return new Promise((resolve, reject) => {
-    db.all('SELECT * from games', [], (error, statement) => {
+    const limit = params[0];
+    const isLimitANumber = typeof limit === 'number';
+
+    db.all(`SELECT * from games ${isLimitANumber ? 'limit ?' : ''}`, params, (error, statement) => {
       if (error) {
         reject(error);
       }
