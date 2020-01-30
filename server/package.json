@@ -10,7 +10,8 @@
     "prod": "tsc && node ./dist/init.js",
     "test": "jest",
     "start": "npm run build:dev",
-    "build": "npm run build:prod"
+    "build": "npm run build:prod",
+    "install-and-start": "npm install && npm start"
   },
   "author": "Albert González",
   "license": "ISC",

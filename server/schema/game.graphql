@@ -15,7 +15,7 @@ input GameInput {
 
 extend type Query {
     game(id: Int!): Game!
-    games(name: String): [Game]!
+    games(name: String, limit: Int): [Game]!
 }
 
 extend type Mutation {
