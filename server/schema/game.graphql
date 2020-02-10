@@ -6,11 +6,18 @@ type Game {
     platform: Platform!
 }
 
-input GameInput {
+input CreateGameInput {
     name: String!
     description: String
     url: String
     platform_id: Int!
+}
+
+input UpdateGameInput {
+    name: String
+    description: String
+    url: String
+    platform_id: Int
 }
 
 extend type Query {
@@ -19,7 +26,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createGame(input: GameInput!): Game!
-    updateGame(id: Int!, input: GameInput!): Game!
+    createGame(input: CreateGameInput!): Game!
+    updateGame(id: Int!, input: UpdateGameInput!): Game!
     deleteGame(id: Int!): Game!
 }

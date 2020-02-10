@@ -58,6 +58,24 @@ describe('Platform Resolvers', () => {
       expect(res.data.platform.games[0].name).toBe(exampleGame.name);
     });
 
+    test('platform query should throw an exception if platform does not exist', async () => {
+      const res = await query({
+        query: `{
+        platform(id: 4) {
+          id
+          name
+          description
+          games {
+            id
+            name
+          }
+        }
+      }`,
+      });
+
+      expect(res.errors[0].message).toBe('Platform Not Found');
+    });
+
     test('platforms query should return a list of platforms', async () => {
       const res = await query({
         query: `{
@@ -78,7 +96,7 @@ describe('Platform Resolvers', () => {
   describe('Mutations', () => {
     test('createPlatform should add a platform and return it', async () => {
       const res = await mutate({
-        mutation: `mutation ($input: PlatformInput!){
+        mutation: `mutation ($input: CreatePlatformInput!){
             createPlatform(input: $input) {
               id
               name
@@ -101,7 +119,7 @@ describe('Platform Resolvers', () => {
 
     test('updatePlatform should update a platform and return it', async () => {
       const res = await mutate({
-        mutation: `mutation ($id: Int!, $input: PlatformInput!){
+        mutation: `mutation ($id: Int!, $input: UpdatePlatformInput!){
             updatePlatform(id: $id, input: $input) {
               id
               name
@@ -124,6 +142,27 @@ describe('Platform Resolvers', () => {
       expect(platform.name).toBe('Some name');
     });
 
+    test('updatePlatform should throw an exception if platform does not exist', async () => {
+      const res = await mutate({
+        mutation: `mutation ($id: Int!, $input: UpdatePlatformInput!){
+            updatePlatform(id: $id, input: $input) {
+              id
+              name
+              description
+            }
+          }`,
+        variables: {
+          id: 4,
+          input: {
+            name: 'Some name',
+            description: 'desc',
+          },
+        },
+      });
+
+      expect(res.errors[0].message).toBe('Platform Not Found');
+    });
+
     test('deletePlatform should delete a platform and return it', async () => {
       const res = await mutate({
         mutation: `mutation ($id: Int!){
@@ -142,6 +181,23 @@ describe('Platform Resolvers', () => {
 
       const platform: Platform = await platformRepository.find(res.data.deletePlatform.id);
       expect(platform).toBeUndefined();
+    });
+
+    test('deletePlatform should throw an exception if game does not exist', async () => {
+      const res = await mutate({
+        mutation: `mutation ($id: Int!){
+            deletePlatform(id: $id) {
+              id
+              name
+              description
+            }
+          }`,
+        variables: {
+          id: 4,
+        },
+      });
+
+      expect(res.errors[0].message).toBe('Platform Not Found');
     });
   });
 });

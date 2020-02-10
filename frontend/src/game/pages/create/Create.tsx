@@ -7,7 +7,7 @@ import logger from '../../../common/services/logger/logger';
 import { GAME_LIST_QUERY } from '../list/List';
 
 export const GAME_CREATE_MUTATION = gql`
-    mutation CreateGame($input: GameInput!) {
+    mutation CreateGame($input: CreateGameInput!) {
       createGame(input: $input) {
         id
         name

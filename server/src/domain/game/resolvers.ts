@@ -1,10 +1,17 @@
 import { Game } from './game';
 import { Context } from '../common/context';
 import { Platform } from '../platform/platform';
+import { ApolloError } from 'apollo-server';
 
 export const gameQueryResolvers = {
   game: async (_: any, { id }: { id: number }, context: Context): Promise<Game> => {
-    return await context.gameRepository.find(id);
+    const game = await context.gameRepository.find(id);
+
+    if (!game) {
+      throw new ApolloError('Game Not Found', '404');
+    }
+
+    return game;
   },
   games: async (_: any, { name, limit }: { name: string, limit?: number }, context: Context): Promise<Game[]> => {
     if (name) {
@@ -32,7 +39,7 @@ export const gameMutationResolvers = {
     const storedGame: Game = await context.gameRepository.find(id || 0);
 
     if (!storedGame) {
-      throw new Error('Game Not Found');
+      throw new ApolloError('Game Not Found', '404');
     }
 
     const game: Game = {
@@ -48,7 +55,7 @@ export const gameMutationResolvers = {
     const storedGame: Game = await context.gameRepository.find(id);
 
     if (!storedGame) {
-      throw new Error('Game Not Found');
+      throw new ApolloError('Game Not Found', '404');
     }
 
     await context.gameRepository.remove(id);

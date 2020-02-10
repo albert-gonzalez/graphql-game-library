@@ -115,6 +115,22 @@ describe('User Resolvers', () => {
       expect(user.username).toBe('Some name');
     });
 
+    test('updateUser should throw an exception if user does not exist', async () => {
+
+      const res = await mutate({
+        mutation: UPDATE_USER_MUTATION,
+        variables: {
+          id: 5,
+          input: {
+            username: 'Some name',
+            roles: ADMIN_ROLE,
+          },
+        },
+      });
+
+      expect(res.errors[0].message).toBe('User Not Found');
+    });
+
     test('updateUser should throw an error if logged user is not admin', async () => {
       loggedUser.roles = USER_ROLE;
 
@@ -144,6 +160,17 @@ describe('User Resolvers', () => {
 
       const user: User = await userRepository.find(res.data.deleteUser.id);
       expect(user).toBeUndefined();
+    });
+
+    test('deleteUser should throw an exception if user does not exist', async () => {
+      const res = await mutate({
+        mutation: DELETE_USER_MUTATION,
+        variables: {
+          id: 5,
+        },
+      });
+
+      expect(res.errors[0].message).toBe('User Not Found');
     });
 
     test('deleteUser should throw an error if logged user is not admin', async () => {

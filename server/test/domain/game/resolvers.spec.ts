@@ -51,6 +51,25 @@ describe('Game Resolvers', () => {
       expect(res.data.game.platform.name).toBe(anotherExamplePlatform.name);
     });
 
+    test('game query should throw an exception if the game does not exist', async () => {
+      const res = await query({
+        query: `{
+        game(id: 3) {
+          id
+          name
+          description
+          url
+          platform {
+            id
+            name
+          }
+        }
+      }`,
+      });
+
+      expect(res.errors[0].message).toBe('Game Not Found');
+    });
+
     test('games query should return a list of games', async () => {
       const res = await query({
         query: `{
@@ -89,7 +108,7 @@ describe('Game Resolvers', () => {
   describe('Mutations', () => {
     test('createGame should add a game and return it', async () => {
       const res = await mutate({
-        mutation: `mutation ($input: GameInput!){
+        mutation: `mutation ($input: CreateGameInput!){
             createGame(input: $input) {
               id
               name
@@ -115,7 +134,7 @@ describe('Game Resolvers', () => {
 
     test('updateGame should update a game and return it', async () => {
       const res = await mutate({
-        mutation: `mutation ($id: Int!, $input: GameInput!){
+        mutation: `mutation ($id: Int!, $input: UpdateGameInput!){
             updateGame(id: $id, input: $input) {
               id
               name
@@ -141,6 +160,30 @@ describe('Game Resolvers', () => {
       expect(game.name).toBe('Some name');
     });
 
+    test('updateGame should should throw an exception if game does not exist', async () => {
+      const res = await mutate({
+        mutation: `mutation ($id: Int!, $input: UpdateGameInput!){
+            updateGame(id: $id, input: $input) {
+              id
+              name
+              description
+              url
+            }
+          }`,
+        variables: {
+          id: 5,
+          input: {
+            name: 'Some name',
+            description: 'desc',
+            url: 'some url',
+            platform_id: 2,
+          },
+        },
+      });
+
+      expect(res.errors[0].message).toBe('Game Not Found');
+    });
+
     test('deleteGame should delete a game and return it', async () => {
       const res = await mutate({
         mutation: `mutation ($id: Int!){
@@ -160,6 +203,24 @@ describe('Game Resolvers', () => {
 
       const game: Game = await gameRepository.find(res.data.deleteGame.id);
       expect(game).toBeUndefined();
+    });
+
+    test('deleteGame should throw an exception if game does not exist', async () => {
+      const res = await mutate({
+        mutation: `mutation ($id: Int!){
+            deleteGame(id: $id) {
+              id
+              name
+              description
+              url
+            }
+          }`,
+        variables: {
+          id: 4,
+        },
+      });
+
+      expect(res.errors[0].message).toBe('Game Not Found');
     });
   });
 });

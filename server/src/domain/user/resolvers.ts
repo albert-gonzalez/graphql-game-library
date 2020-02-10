@@ -1,6 +1,7 @@
 import { Context } from '../common/context';
 import { checkUserIsAdmin, User } from './user';
 import cryptoRandomString from 'crypto-random-string';
+import { ApolloError } from 'apollo-server';
 
 export const userMutationResolvers = {
   createUser: async (
@@ -28,7 +29,7 @@ export const userMutationResolvers = {
     const storedUser: User = await context.userRepository.find(id || 0);
 
     if (!storedUser) {
-      throw new Error('User Not Found');
+      throw new ApolloError('User Not Found', '404');
     }
 
     const user: User = {
@@ -46,7 +47,7 @@ export const userMutationResolvers = {
     const storedUser: User = await context.userRepository.find(id);
 
     if (!storedUser) {
-      throw new Error('User Not Found');
+      throw new ApolloError('User Not Found', '404');
     }
 
     await context.userRepository.remove(id);
