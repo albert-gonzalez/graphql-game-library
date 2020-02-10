@@ -1,8 +1,8 @@
-import {ApolloServer} from "apollo-server";
-import {schema} from "../../../src/services/common/graphql/schemaLoader";
-import {ADMIN_ROLE, User, USER_ROLE} from "../../../src/domain/user/user";
-import {exampleAdmin, initUserRepository, userRepository} from "../../services/user/inMemory/inMemoryUserRepository";
-import {userMutationResolvers} from "../../../src/domain/user/resolvers";
+import { ApolloServer } from 'apollo-server';
+import { schema } from '../../../src/services/common/graphql/schemaLoader';
+import { ADMIN_ROLE, User, USER_ROLE } from '../../../src/domain/user/user';
+import { exampleAdmin, initUserRepository, userRepository } from '../../services/user/inMemory/inMemoryUserRepository';
+import { userMutationResolvers } from '../../../src/domain/user/resolvers';
 import { createTestClient } from 'apollo-server-testing';
 
 const CREATE_USER_MUTATION = `
@@ -37,7 +37,7 @@ describe('User Resolvers', () => {
   let query: any;
   let mutate: any;
   const loggedUser: User = {
-    ...exampleAdmin
+    ...exampleAdmin,
   };
 
   beforeAll(() => {
@@ -48,11 +48,11 @@ describe('User Resolvers', () => {
       },
       context: () => ({
         userRepository,
-        user: loggedUser
+        user: loggedUser,
       }),
     });
 
-    ({query, mutate} = createTestClient(server));
+    ({ query, mutate } = createTestClient(server));
   });
 
   beforeEach(() => {
@@ -68,8 +68,8 @@ describe('User Resolvers', () => {
           input: {
             username: 'Some name',
             roles: USER_ROLE,
-          }
-        }
+          },
+        },
       });
 
       expect(res.data.createUser.id).toBe(3);
@@ -88,8 +88,8 @@ describe('User Resolvers', () => {
           input: {
             username: 'Some name',
             roles: USER_ROLE,
-          }
-        }
+          },
+        },
       });
 
       expect(res.errors[0].extensions.code).toBe('UNAUTHENTICATED');
@@ -104,8 +104,8 @@ describe('User Resolvers', () => {
           input: {
             username: 'Some name',
             roles: ADMIN_ROLE,
-          }
-        }
+          },
+        },
       });
 
       expect(res.data.updateUser.id).toBe(1);
@@ -125,8 +125,8 @@ describe('User Resolvers', () => {
           input: {
             username: 'Some name',
             roles: ADMIN_ROLE,
-          }
-        }
+          },
+        },
       });
 
       expect(res.errors[0].extensions.code).toBe('UNAUTHENTICATED');
@@ -137,7 +137,7 @@ describe('User Resolvers', () => {
         mutation: DELETE_USER_MUTATION,
         variables: {
           id: 1,
-        }
+        },
       });
 
       expect(res.data.deleteUser.id).toBe(1);
@@ -152,8 +152,8 @@ describe('User Resolvers', () => {
       const res = await mutate({
         mutation: DELETE_USER_MUTATION,
         variables: {
-          id: 1
-        }
+          id: 1,
+        },
       });
 
       expect(res.errors[0].extensions.code).toBe('UNAUTHENTICATED');

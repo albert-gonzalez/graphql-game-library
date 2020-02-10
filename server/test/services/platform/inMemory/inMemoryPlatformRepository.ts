@@ -1,18 +1,18 @@
-import {Platform, PlatformRepository} from "../../../../src/domain/platform/platform";
-import {anotherExampleGame, exampleGame} from "../../game/inMemory/inMemoryGameRepository";
+import { Platform, PlatformRepository } from '../../../../src/domain/platform/platform';
+import { anotherExampleGame, exampleGame } from '../../game/inMemory/inMemoryGameRepository';
 
 export const examplePlatform: Platform = {
   id: 1,
   name: 'Platform 1',
   description: 'Description 1',
-  games: [anotherExampleGame]
+  games: [anotherExampleGame],
 };
 
 export const anotherExamplePlatform: Platform = {
   id: 2,
   name: 'Platform 2',
   description: 'Description 2',
-  games: [exampleGame]
+  games: [exampleGame],
 };
 
 let platformList: Platform[];
@@ -22,35 +22,35 @@ let currentId: number;
 export function initPlatformRepository() {
   platformList = [
     examplePlatform,
-    anotherExamplePlatform
+    anotherExamplePlatform,
   ];
 
   currentId = 2;
 }
 
 export const platformRepository: PlatformRepository = {
-  find: async function (id: number) {
+  async find (id: number) {
     return platformList.find(platform => platform.id === id) as Platform;
   },
-  findAll: async function () {
+  async findAll () {
     return platformList;
   },
-  insert: async function (platform: Platform) {
+  async insert (platform: Platform) {
     const id = ++currentId;
-    platformList.push({...platform, id});
+    platformList.push({ ...platform, id });
 
     return id;
   },
-  remove: async function (id: number) {
-    platformList = platformList.filter(platform => platform.id !== id)
+  async remove (id: number) {
+    platformList = platformList.filter(platform => platform.id !== id);
   },
-  update: async function (updatedPlatform: Platform) {
+  async update (updatedPlatform: Platform) {
     const index = platformList.findIndex(platform => updatedPlatform.id === platform.id);
 
     if (index >= 0) {
       platformList[index] = updatedPlatform;
     }
-  }
+  },
 };
 
 initPlatformRepository();

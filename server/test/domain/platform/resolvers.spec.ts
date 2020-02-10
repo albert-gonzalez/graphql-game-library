@@ -1,17 +1,17 @@
-import {ApolloServer} from "apollo-server";
-import {schema} from "../../../src/services/common/graphql/schemaLoader";
-import { exampleGame, gameRepository } from "../../services/game/inMemory/inMemoryGameRepository";
+import { ApolloServer } from 'apollo-server';
+import { schema } from '../../../src/services/common/graphql/schemaLoader';
+import { exampleGame, gameRepository } from '../../services/game/inMemory/inMemoryGameRepository';
 import {
   anotherExamplePlatform, examplePlatform,
   initPlatformRepository,
-  platformRepository
-} from "../../services/platform/inMemory/inMemoryPlatformRepository";
+  platformRepository,
+} from '../../services/platform/inMemory/inMemoryPlatformRepository';
 import {
   platformFieldResolvers,
   platformMutationResolvers,
-  platformQueryResolvers
-} from "../../../src/domain/platform/resolvers";
-import {Platform} from "../../../src/domain/platform/platform";
+  platformQueryResolvers,
+} from '../../../src/domain/platform/resolvers';
+import { Platform } from '../../../src/domain/platform/platform';
 const { createTestClient } = require('apollo-server-testing');
 
 describe('Platform Resolvers', () => {
@@ -24,12 +24,12 @@ describe('Platform Resolvers', () => {
       resolvers: {
         Query: platformQueryResolvers,
         Mutation: platformMutationResolvers,
-        ...platformFieldResolvers
+        ...platformFieldResolvers,
       },
       context: () => ({ gameRepository, platformRepository }),
     });
 
-    ({query, mutate} = createTestClient(server));
+    ({ query, mutate } = createTestClient(server));
   });
 
   beforeEach(() => {
@@ -49,7 +49,7 @@ describe('Platform Resolvers', () => {
             name
           }
         }
-      }`
+      }`,
       });
 
       expect(res.data.platform.id).toBe(anotherExamplePlatform.id);
@@ -66,7 +66,7 @@ describe('Platform Resolvers', () => {
           name
           description
         }
-      }`
+      }`,
       });
 
       expect(res.data.platforms).toHaveLength(2);
@@ -89,8 +89,8 @@ describe('Platform Resolvers', () => {
           input: {
             name: 'Some name',
             description: 'desc',
-          }
-        }
+          },
+        },
       });
 
       expect(res.data.createPlatform.id).toBe(3);
@@ -113,8 +113,8 @@ describe('Platform Resolvers', () => {
           input: {
             name: 'Some name',
             description: 'desc',
-          }
-        }
+          },
+        },
       });
 
       expect(res.data.updatePlatform.id).toBe(1);
@@ -135,7 +135,7 @@ describe('Platform Resolvers', () => {
           }`,
         variables: {
           id: 1,
-        }
+        },
       });
 
       expect(res.data.deletePlatform.id).toBe(1);

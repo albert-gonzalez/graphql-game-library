@@ -1,9 +1,9 @@
-import {ApolloServer} from "apollo-server";
-import {gameFieldResolvers, gameMutationResolvers, gameQueryResolvers} from "../../../src/domain/game/resolvers";
-import {schema} from "../../../src/services/common/graphql/schemaLoader";
-import {exampleGame, gameRepository, initGameRepository} from "../../services/game/inMemory/inMemoryGameRepository";
-import {Game} from "../../../src/domain/game/game";
-import {anotherExamplePlatform, platformRepository} from "../../services/platform/inMemory/inMemoryPlatformRepository";
+import { ApolloServer } from 'apollo-server';
+import { gameFieldResolvers, gameMutationResolvers, gameQueryResolvers } from '../../../src/domain/game/resolvers';
+import { schema } from '../../../src/services/common/graphql/schemaLoader';
+import { exampleGame, gameRepository, initGameRepository } from '../../services/game/inMemory/inMemoryGameRepository';
+import { Game } from '../../../src/domain/game/game';
+import { anotherExamplePlatform, platformRepository } from '../../services/platform/inMemory/inMemoryPlatformRepository';
 const { createTestClient } = require('apollo-server-testing');
 
 describe('Game Resolvers', () => {
@@ -16,12 +16,12 @@ describe('Game Resolvers', () => {
       resolvers: {
         Query: gameQueryResolvers,
         Mutation: gameMutationResolvers,
-        ...gameFieldResolvers
+        ...gameFieldResolvers,
       },
       context: () => ({ gameRepository, platformRepository }),
     });
 
-    ({query, mutate} = createTestClient(server));
+    ({ query, mutate } = createTestClient(server));
   });
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('Game Resolvers', () => {
             name
           }
         }
-      }`
+      }`,
       });
 
       expect(res.data.game.id).toBe(exampleGame.id);
@@ -60,7 +60,7 @@ describe('Game Resolvers', () => {
           description
           url
         }
-      }`
+      }`,
       });
 
       expect(res.data.games).toHaveLength(2);
@@ -77,7 +77,7 @@ describe('Game Resolvers', () => {
           description
           url
         }
-      }`
+      }`,
       });
 
       expect(res.data.games).toHaveLength(1);
@@ -102,9 +102,9 @@ describe('Game Resolvers', () => {
             name: 'Some name',
             description: 'desc',
             url: 'some url',
-            platform_id: 2
-          }
-        }
+            platform_id: 2,
+          },
+        },
       });
 
       expect(res.data.createGame.id).toBe(3);
@@ -129,9 +129,9 @@ describe('Game Resolvers', () => {
             name: 'Some name',
             description: 'desc',
             url: 'some url',
-            platform_id: 2
-          }
-        }
+            platform_id: 2,
+          },
+        },
       });
 
       expect(res.data.updateGame.id).toBe(1);
@@ -153,7 +153,7 @@ describe('Game Resolvers', () => {
           }`,
         variables: {
           id: 1,
-        }
+        },
       });
 
       expect(res.data.deleteGame.id).toBe(1);
