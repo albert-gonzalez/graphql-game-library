@@ -18,7 +18,7 @@
         * Run `npm test` to run tests
     * Docker:
       * Run `docker-compose up` to execute server (localhost:4000) and frontend (localhost:3000) in devel mode.
-      * Run `docker-compose run --service-ports games_server npm test` to run  server tests
-      * Run `docker-compose run --service-ports games_frontend npm test` to run server tests
+      * Run `docker-compose run games_server npm test` to run  server tests
+      * Run `docker-compose run games_frontend npm test` to run server tests
 * Open `http://localhost:4000` in the browser to access GraphQL Playground
 * Open `http://localhost:3000` in the browser to access the frontend app
