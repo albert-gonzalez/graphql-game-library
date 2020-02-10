@@ -13,12 +13,8 @@ export const gameQueryResolvers = {
 
     return game;
   },
-  games: async (_: any, { name, limit }: { name: string, limit?: number }, context: Context): Promise<Game[]> => {
-    if (name) {
-      return await context.gameRepository.findByName(name);
-    }
-    return await context.gameRepository.findAll([limit]);
-
+  games: async (_: any, __: any, context: Context): Promise<Game[]> => {
+    return await context.gameRepository.findAll([]);
   },
 };
 

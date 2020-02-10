@@ -4,24 +4,3 @@ type Platform {
     description: String
     games: [Game]!
 }
-
-input CreatePlatformInput {
-    name: String!
-    description: String
-}
-
-input UpdatePlatformInput {
-    name: String
-    description: String
-}
-
-extend type Query {
-    platform(id: Int!): Platform!
-    platforms: [Platform]!
-}
-
-extend type Mutation {
-    createPlatform(input: CreatePlatformInput!): Platform!
-    updatePlatform(id: Int!, input: UpdatePlatformInput!): Platform!
-    deletePlatform(id: Int!): Platform!
-}
