@@ -4,18 +4,20 @@ services:
     build:
       context: server/.
     volumes:
-      - ./server:/src
+      - ./:/src
+      - /src/frontend
     ports:
       - 4000:4000
-    working_dir: /src
+    working_dir: /src/server
     command: npm run install-and-start
 
   games_frontend:
     build:
       context: frontend/.
     volumes:
-      - ./frontend:/src
+      - ./:/src
+      - /src/server
     ports:
       - 3000:3000
-    working_dir: /src
+    working_dir: /src/frontend
     command: npm run install-and-start
