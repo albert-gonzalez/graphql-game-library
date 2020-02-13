@@ -1,5 +1,9 @@
 FROM node:12-alpine
 
+RUN apk update && \
+    apk upgrade && \
+    apk add git
+
 COPY . src/
 
 # Install app dependencies
