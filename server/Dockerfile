@@ -4,10 +4,10 @@ RUN apk update && \
     apk upgrade && \
     apk add git
 
-COPY . src/
+COPY . src/server
 
 # Install app dependencies
-WORKDIR src
+WORKDIR src/server
 ENV NPM_CONFIG_LOGLEVEL warn
 RUN npm install
 

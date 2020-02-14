@@ -4,10 +4,10 @@ RUN apk update && \
     apk upgrade && \
     apk add git
 
-COPY . src/
+COPY . src/frontend
 
 # Install app dependencies
-WORKDIR src
+WORKDIR src/frontend
 ENV NPM_CONFIG_LOGLEVEL warn
 RUN npm install
 
