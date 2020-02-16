@@ -29,8 +29,8 @@ export default () => {
                     </div>
                 </div>
             </section>
-            <nav className="navbar container" role="navigation" aria-label="main navigation">
-                <div className="navbar-brand">
+            <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
+                <div className="container navbar-brand">
                     <Link className="navbar-item" to="/">Game List</Link>
                     <Link className="navbar-item" to="/game/create">Create Game</Link>
                 </div>
