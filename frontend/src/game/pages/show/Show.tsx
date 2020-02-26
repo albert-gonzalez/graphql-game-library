@@ -5,21 +5,9 @@ import { Link, useParams } from 'react-router-dom';
 import logger from '../../../common/services/logger/logger';
 import { Game } from '../../domain/game';
 import { replaceRelativeAnchorUrls } from '../../../common/services/url/relativeUrls';
+import ProgressBar from '../../../common/components/loader/ProgressBar';
 
-export const GAME_QUERY = gql`
-    query Game($id: Int!) {
-      game(id: $id) {
-        id
-        name
-        description
-        url
-        platform {
-          id
-          name
-        }
-      }
-    }
-`;
+export const GAME_QUERY = '';
 
 export default () => {
   const { id } = useParams();
@@ -28,15 +16,19 @@ export default () => {
     return (<div className="Section">Id needed</div>);
   }
 
-  const { data, loading, error } = useQuery(GAME_QUERY, {
-    variables: {
-      id: parseInt(id, 10),
+  // Change this to useQuery
+  // This query needs the "variables" option with the "id" parameter.
+  // Pass the value of the "id" variable
+  const { data, loading, error } = {
+    data: {
+      game: {},
     },
-  });
+    loading: true,
+    error: '',
+  };
 
   if (loading) {
-    return (<progress className="progress is-small is-primary" max="100">15%</progress>
-    );
+    return <ProgressBar />;
   }
 
   if (error) {

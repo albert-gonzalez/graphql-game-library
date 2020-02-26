@@ -7,32 +7,21 @@ import logger from '../../../common/services/logger/logger';
 import { Game } from '../../domain/game';
 import parseDescription from './parseDescription';
 
-export const GAME_LIST_QUERY = gql`
-    query Games($name: String){
-      games(name: $name, limit: 100) {
-        id
-        name
-        description
-        url
-        platform {
-          id
-          name
-        }
-      }
-    }
-`;
+export const GAME_LIST_QUERY = '';
 
 export default () => {
   let { search } = useParams();
   search = search || '';
   const history = useHistory();
 
-  const { data, loading, error } = useQuery(GAME_LIST_QUERY, {
-    fetchPolicy: search ? 'no-cache' : 'cache-first',
-    variables: {
-      name: search,
-    },
-  });
+  // Change this to useQuery
+  // This query needs the "variables" option with the "name" parameter.
+  // Pass the value of the "search" variable
+  const { data, loading, error } = {
+    data: { games: [] },
+    loading: true,
+    error: '',
+  };
 
   const [searchInputValue, setSearchInputValue] = useState(search);
   useEffect(() => {

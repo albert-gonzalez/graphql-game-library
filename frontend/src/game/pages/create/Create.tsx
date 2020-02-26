@@ -6,20 +6,7 @@ import ProgressBar from '../../../common/components/loader/ProgressBar';
 import logger from '../../../common/services/logger/logger';
 import { GAME_LIST_QUERY } from '../list/List';
 
-export const GAME_CREATE_MUTATION = gql`
-    mutation CreateGame($input: CreateGameInput!) {
-      createGame(input: $input) {
-        id
-        name
-        description
-        url
-        platform {
-          id
-          name
-        }
-      }
-    }
-`;
+export const GAME_CREATE_MUTATION = '';
 
 const updateGqlCache = (cache: any, { data: { createGame } }: any) => {
   try {
@@ -41,9 +28,14 @@ const updateGqlCache = (cache: any, { data: { createGame } }: any) => {
 
 export default () => {
   const history = useHistory();
-  const [createGame, { error }] = useMutation(GAME_CREATE_MUTATION, {
-    update: updateGqlCache,
-  });
+
+  // Change this to useMutation
+  const [createGame, { error }] = [
+    async (args: any) => {},
+    {
+      error: '',
+    },
+  ];
 
   const [nameInputValue, setNameInputValue] = useState('');
   const [descriptionInputValue, setDescriptionInputValue] = useState('');
@@ -55,15 +47,8 @@ export default () => {
     event.preventDefault();
     setSubmitted(true);
 
+    // This function needs the "variables" option with the needed parameters to create a game
     createGame({
-      variables: {
-        input: {
-          name: nameInputValue,
-          description: descriptionInputValue,
-          url: urlInputValue,
-          platform_id: parseInt(platformSelectValue, 10),
-        },
-      },
     }).then(() => history.goBack())
       .catch(() => {});
   };
